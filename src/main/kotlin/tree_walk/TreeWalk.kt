@@ -67,6 +67,23 @@ class TreeWalk(private val rootPath: String, private val excludeKeyWord: String)
         println(diffFiles.size.toString() + " files found")
         diffFiles.forEach { println(it.absolutePath) }
     }
+
+    private fun getSameFiles(treeWalk: TreeWalk): List<File>{
+        val diffFiles: MutableList<File> = mutableListOf()
+        treeWalk.map.forEach{ (k, v) ->
+            if (map.containsKey(k))
+                v.forEach { diffFiles.add(it) }
+        }
+        return diffFiles
+    }
+
+    fun printSameFiles(target: TreeWalk) {
+        println("search file in both file ...")
+        val diffFiles: List<File> = getSameFiles(target)
+
+        println(diffFiles.size.toString() + " files found")
+        diffFiles.forEach { println("rm \"" + it.absolutePath + "\"") }
+    }
 }
 
 
